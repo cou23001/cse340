@@ -9,6 +9,10 @@ const express = require("express")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+// Index route
+app.get("/", function(req, res){
+  res.render("index", {title: "Home"})
+})
 const expressLayouts = require("express-ejs-layouts")
 
 /* ***********************
