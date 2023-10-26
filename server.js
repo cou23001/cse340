@@ -6,14 +6,15 @@
  * Require Statements
  *************************/
 const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+
 // Index route
 app.get("/", function(req, res){
   res.render("index", {title: "Home"})
 })
-const expressLayouts = require("express-ejs-layouts")
 
 /* ***********************
  * View Engine and Templates
