@@ -139,7 +139,7 @@ nav {
 }
 
 .button-container button {
-  padding: none;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -221,9 +221,9 @@ footer {
     
     h2 {
       font-size: 18px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       text-align: left;
-      margin-top: 10px;
+      margin-top: 20px;
     }
     
     ul {
