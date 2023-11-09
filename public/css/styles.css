@@ -223,10 +223,8 @@ footer {
 #inv-display {
   display: flex;
   flex-wrap: wrap;
-  /*justify-content: space-between;*/
-  /*align-items: center;*/
-  /*list-style: none;*/
   padding: 0;
+  justify-content: center;
 }
   
 #inv-display li {
@@ -235,9 +233,6 @@ footer {
   text-align: center;
   border: 2px solid gray;
   border-radius: 10px;
-  /*display: flex;
-  flex-direction: column;
-  height: 200px;*/
 }
 
 #inv-display img {
