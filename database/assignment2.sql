@@ -45,7 +45,7 @@ WHERE c.classification_id = 2;
 -- 6) Update all records in the inventory table to add "/vehicles" to the 
 -- middle of the file path in the inv_image and inv_thumbnail columns
 UPDATE public.inventory
-SET inv_description = REPLACE (inv_description,'/images/','/images/vehicles/')
+SET inv_image = REPLACE (inv_image,'/images/','/images/vehicles/')
 ;
 
 UPDATE public.inventory
