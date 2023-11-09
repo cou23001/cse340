@@ -27,7 +27,7 @@ h1 {
 h2 {
   font-size: 18px;
   margin-bottom: 5px;
-  text-align: left;
+  text-align: center;
   margin-top: 5px;
 }
 
@@ -81,21 +81,32 @@ img {
 
 nav {
   background-color: black;
-  color: white;
 }
 
 .nav-list {
-  list-style-type: none;
-  padding: 7px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 20px;
-  justify-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .nav-list li {
   display: inline; 
   margin-bottom: 0px;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: white;
+  padding: 5px;
+}
+
+.nav-list a:hover {
+  color: black; 
+  background-color: white; 
+  padding: 5px;
 }
 
 .wrapper {
@@ -207,6 +218,64 @@ footer {
   color: black;
   text-align: center;
   padding: 5px;
+}
+
+#inv-display {
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-between;*/
+  /*align-items: center;*/
+  /*list-style: none;*/
+  padding: 0;
+}
+  
+#inv-display li {
+  width: calc(50% - 20px);
+  margin: 10px;
+  text-align: center;
+  border: 2px solid gray;
+  border-radius: 10px;
+  /*display: flex;
+  flex-direction: column;
+  height: 200px;*/
+}
+
+#inv-display img {
+  max-width: 85%;
+  border-radius: 10px;
+  margin-top: 2px;
+  /*flex: 8;*/
+}
+
+#inv-display hr {
+  border: none; 
+  height: 2px; 
+  background-color: black; 
+  margin: 2px 0;
+}
+
+.namePrice {
+  /*flex: 2;*/
+  text-align: center;
+  color: black;
+}
+
+.namePrice a {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+.namePrice h2 {
+  font-size: 12px;
+}
+
+.namePrice span {
+  font-size: 12px;
+}
+
+.notice {
+  color: red;
 }
 
   @media (min-width: 769px) {
@@ -326,5 +395,22 @@ footer {
       background-color: #333;
       color: white;
       padding: 15px;
+    }
+
+    .namePrice a {
+      font-size: 16px;
+    }
+
+    .namePrice h2 {
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .namePrice span {
+      font-size: 14px;
+    }
+
+    #inv-display li {
+      width: calc(33.33% - 20px);
     }
   }

@@ -1,4 +1,5 @@
 -- Assignment 2
+-- Cesar Coutino
 
 -- Task One - Write SQL Statements
 
@@ -23,13 +24,16 @@ WHERE account_id = 1;
 DELETE FROM public.account
 WHERE account_id = 1;
 
--- 4) Modify the "GM Hummer" record to read "a huge interior" rather than "small interiors"
+-- 4) Modify the "GM Hummer" record to read "a huge interior" rather 
+-- than "small interiors"
 UPDATE public.inventory
 SET inv_description = REPLACE (inv_description,'the small interiors','a huge interior')
 WHERE inv_id = 10;
 
 -- 5) Use an inner join to select the make and model fields 
--- from the inventory table and the classification name field from the classification table for inventory items that belong to the "Sport" category
+-- from the inventory table and the classification name field 
+-- from the classification table for inventory items that belong 
+-- to the "Sport" category
 
 SELECT i.inv_make, i.inv_model, c.classification_name
 FROM public.inventory i
