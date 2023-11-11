@@ -24,12 +24,11 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-module.exports = Util
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
 Util.buildClassificationGrid = async function(data){
+    //console.log('data inside buildClass: ' + data[0].inv_make)
     let grid
     if(data.length > 0){
       grid = '<ul id="inv-display">'
@@ -58,3 +57,40 @@ Util.buildClassificationGrid = async function(data){
     }
     return grid
   }
+
+
+/* **************************************
+* Build the vehicle detail view HTML
+* ************************************ */
+Util.buildDetailAuto = async function(vehicle) {
+  let grid = '';
+
+  if (vehicle) {
+    grid += '<div class="inv-card">'; 
+    grid += '<div class="inv-image">';    
+    grid += '<img src="' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' on CSE Motors" />';
+    grid += '</div>';
+
+    grid += '<div class="inv-desc">';
+    grid += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>';
+    grid += '<p><b>Price: </b>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</p>';
+    grid += '<p><b>Description: </b>' + vehicle.inv_description + '</p>';
+    grid += '<p><b>Color: </b>' + vehicle.inv_color + '</p>';
+    grid += '<p><b>Miles: </b>' + vehicle.inv_miles.toLocaleString() + '</p>';
+    
+    grid += '</div></div>';
+  } else {
+    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+  }
+
+  return grid;
+};
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+module.exports = Util
