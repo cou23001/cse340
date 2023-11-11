@@ -88,8 +88,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .nav-list li {
@@ -101,6 +101,7 @@ nav {
   text-decoration: none;
   color: white;
   padding: 5px;
+  font-size: 14px;
 }
 
 .nav-list a:hover {
@@ -138,7 +139,7 @@ nav {
 
 .text-overlay {
   position: absolute;
-  top: 20%; 
+  top: 28%; 
   left: 22%;
   transform: translate(-50%, -50%); 
   background-color: rgba(255, 255, 255, 0.7); 
@@ -151,6 +152,11 @@ nav {
 .text-overlay p {
   margin-bottom: 3px; 
   margin: 0;
+}
+
+.text-overlay h2 {
+  margin-bottom: 1px;
+  margin-top: 1px;
 }
 
 .button-container {
