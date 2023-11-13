@@ -40,9 +40,7 @@ app.use("/inv/detail", inventoryDetail)
 app.use('/simulate-500', (req, res, next) => {
   // Simulate an error by throwing an exception
   console.log('Reached /simulate-500 route');
-  const error = new Error('Simulated 500 Internal Server Error');
-  error.status = 500;
-  next(error);
+  next({status: 500, message: 'Simulated 500 Internal Server Error.'})
 });
 
 // File Not Found Route - must be last route in list
