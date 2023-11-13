@@ -321,6 +321,20 @@ footer {
   color: black;
 }
 
+.error {
+  padding: 5px;
+}
+
+.error img {
+  width: 50%;
+}
+
+.error h2 {
+  font-size: 14px;
+  text-align: left;
+}
+
+
 
   @media (min-width: 769px) {
     
@@ -350,6 +364,10 @@ footer {
     ul li {
       font-size: 18px; 
       margin-bottom: 25px;
+    }
+
+    .nav-list a {
+      font-size: 18px;
     }
 
     header {
@@ -464,5 +482,19 @@ footer {
 
     .copyright {
       color: white;
+    }
+
+    .error {
+      padding: 10px;
+    }
+    
+    .error img {
+      margin-top: 20px;
+      width: 75%;
+    }
+    
+    .error h2 {
+      font-size: 20px;
+      text-align: left;
     }
   }

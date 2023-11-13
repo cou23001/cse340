@@ -63,27 +63,27 @@ Util.buildClassificationGrid = async function(data){
 * Build the vehicle detail view HTML
 * ************************************ */
 Util.buildDetailAuto = async function(vehicle) {
-  let grid = '';
+  let car_detail = '';
 
   if (vehicle) {
-    grid += '<div class="inv-card">'; 
-    grid += '<div class="inv-image">';    
-    grid += '<img src="' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' on CSE Motors" />';
-    grid += '</div>';
+    car_detail += '<div class="inv-card">'; 
+    car_detail += '<div class="inv-image">';    
+    car_detail += '<img src="' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' on CSE Motors">';
+    car_detail += '</div>';
 
-    grid += '<div class="inv-desc">';
-    grid += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>';
-    grid += '<p><b>Price: </b>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</p>';
-    grid += '<p><b>Description: </b>' + vehicle.inv_description + '</p>';
-    grid += '<p><b>Color: </b>' + vehicle.inv_color + '</p>';
-    grid += '<p><b>Miles: </b>' + vehicle.inv_miles.toLocaleString() + '</p>';
+    car_detail += '<div class="inv-desc">';
+    car_detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>';
+    car_detail += '<p><b>Price: </b>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</p>';
+    car_detail += '<p><b>Description: </b>' + vehicle.inv_description + '</p>';
+    car_detail += '<p><b>Color: </b>' + vehicle.inv_color + '</p>';
+    car_detail += '<p><b>Miles: </b>' + vehicle.inv_miles.toLocaleString() + '</p>';
     
-    grid += '</div></div>';
+    car_detail += '</div></div>';
   } else {
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+    car_detail += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
 
-  return grid;
+  return car_detail;
 };
 
 /* ****************************************

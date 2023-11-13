@@ -60,9 +60,15 @@ app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   if(err.status == 404)
-    { message = err.message} 
+    { 
+      message = err.message
+      imageUrl = '/images/site/error404.png'
+    } 
   else 
-    {message = 'Oh no! There was a crash. Maybe try a different route?'}
+    {
+      message = 'Oh no! There was a crash. Maybe try a different route?'
+      imageUrl = '/images/site/error500.jpeg'
+    }
   res.render("errors/error", {
     title: err.status || 'Server Error',
     message,

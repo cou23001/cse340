@@ -23,9 +23,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
 invCont.buildByCarId = async function (req, res, next) {
   const inv_id = req.params.carId
-  console.log('inside invController inv_id',inv_id)
   const data = await invModel.getDetailByCarId(inv_id)
-  const grid = await utilities.buildDetailAuto(data.rows[0])
+  const detail = await utilities.buildDetailAuto(data.rows[0])
   let nav = await utilities.getNav()
   const year = data.rows[0].inv_year
   const make = data.rows[0].inv_make
@@ -33,7 +32,7 @@ invCont.buildByCarId = async function (req, res, next) {
   res.render("./inventory/car", {
     title: year + " " + make + " " + model,
     nav,
-    grid,
+    detail,
   })
   
 }
