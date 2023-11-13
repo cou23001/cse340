@@ -32,9 +32,7 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
-
-// Inventory detail
-app.use("/inv/detail", inventoryDetail)
+app.use("/inv/detail", inventoryRoute)
 
 // Middleware to simulate a 500 error
 app.use('/simulate-500', (req, res, next) => {
