@@ -35,7 +35,6 @@ app.use("/inv/detail", inventoryRoute)
 
 // Middleware to simulate a 500 error
 app.use('/simulate-500', (req, res, next) => {
-  // Simulate an error by throwing an exception
   console.log('Reached /simulate-500 route');
   next({status: 500, message: 'Simulated 500 Internal Server Error.'})
 });
@@ -44,8 +43,6 @@ app.use('/simulate-500', (req, res, next) => {
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
-
-
 
 /* ***********************
 * Express Error Handler
