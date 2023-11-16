@@ -334,6 +334,58 @@ footer {
   text-align: left;
 }
 
+.login{
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+.login form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 70%;
+}
+
+.login label {
+  display: block;
+  margin-bottom: 1px;
+  margin-top: 10px;
+}
+
+.login input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.login button {
+  background-color: rgb(34, 116, 204);
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.login button:hover {
+  background-color: rgb(55, 127, 204);
+}
+
+.toggle-password-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #777;
+}
+
+.toggle-password-icon:hover {
+  color: #333; 
+}
 
 
   @media (min-width: 769px) {

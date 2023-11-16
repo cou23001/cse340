@@ -1,0 +1,22 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <%- messages() %>
+  <div class="login">
+    <form action="/account/login" method="post">
+      <label for="account_username">Username:</label>
+      <input type="text" id="account_username" name="account_email" required>
+    
+      <label for="account_password">Password:</label>
+      <div style="position: relative;">
+          <input type="password" id="account_password" name="account_password" required>
+          <i class="fas fa-eye-slash toggle-password-icon" id="toggle_password" onclick="togglePassword()"></i>
+      </div>
+      
+      <button type="submit">Submit</button>
+      <p>No account? <a href="/account/register">Sign up</a></p>
+    </form>
+  </div>
+  
+  <% } else {
+    res.redirect('/')
+} %>
