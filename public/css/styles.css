@@ -374,6 +374,12 @@ footer {
   background-color: rgb(55, 127, 204);
 }
 
+.login span {
+  font-size: 13px;
+  font-style: italic;
+  color: black;
+}
+
 .toggle-password-icon {
   position: absolute;
   top: 50%;
@@ -381,6 +387,14 @@ footer {
   transform: translateY(-50%);
   cursor: pointer;
   color: #777;
+}
+
+input:required:invalid, input:focus:invalid {
+  border: 2px solid red;
+ }
+
+input:required:valid {
+  border: 2px solid green;
 }
 
 .toggle-password-icon:hover {
