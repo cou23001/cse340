@@ -11,11 +11,12 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
+const accountRoute = require('./routes/accountRoute')
 const inventoryRoute = require("./routes/inventoryRoute")
+const mgmtRoute = require("./routes/mgmtRoute")
 const utilities = require("./utilities/")
 const session = require("express-session")
 const pool = require('./database/')
-const accountRoute = require('./routes/accountRoute')
 const bodyParser = require("body-parser")
 
 /* ***********************
@@ -31,6 +32,11 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
+
+app.use((req, res, next) => {
+  res.locals.req = req;
+  next();
+});
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
@@ -60,7 +66,9 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
-//app.use("/inv/detail", inventoryRoute)
+
+// Mgmt vehicles and classification
+app.use("/mgmt", mgmtRoute)
 
 // Account routes - Unit 4. activity
 app.use("/account", accountRoute)

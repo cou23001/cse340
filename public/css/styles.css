@@ -356,7 +356,11 @@ footer {
 .login input {
   width: 100%;
   padding: 8px;
+  border-radius: 4px;
+  outline: none;
   box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
 }
 
 .login button {
@@ -368,6 +372,7 @@ footer {
   cursor: pointer;
   margin-bottom: 10px;
   margin-top: 20px;
+  font-size: 16px;
 }
 
 .login button:hover {
@@ -378,6 +383,25 @@ footer {
   font-size: 13px;
   font-style: italic;
   color: black;
+}
+
+.login select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.login textarea {
+  width: 100%;
+  font-size: 16px;
+  /*border: 1px solid #ccc;*/
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .toggle-password-icon {
@@ -399,6 +423,20 @@ input:required:valid {
 
 .toggle-password-icon:hover {
   color: #333; 
+}
+
+.mgmt {
+  margin-left: 40px;
+}
+
+.login textarea:required:invalid,
+.login textarea:focus:invalid {
+  border: 2px solid red;
+}
+
+/* Green border for valid (non-empty) textarea */
+.login textarea:required:valid {
+  border: 2px solid green;
 }
 
 

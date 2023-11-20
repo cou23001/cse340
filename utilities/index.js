@@ -56,7 +56,7 @@ Util.buildClassificationGrid = async function(data){
       grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
     }
     return grid
-  }
+}
 
 
 /* **************************************
@@ -85,6 +85,57 @@ Util.buildDetailAuto = async function(vehicle) {
 
   return car_detail;
 };
+
+/* ************************
+ * Constructs the select element of Classification
+ ************************** */
+/*
+Util.getSelect = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  let select = "<select id='classification_id' name='classification_id' required>"
+  data.rows.forEach((row) => {
+    select += "<option value='" + row.classification_id + "'>" + row.classification_name + "</option>";
+  })
+  select += "</select>"
+  return select
+}
+*/
+
+Util.getSelect = async function (req, res, next, selectedValue) {
+  let data = await invModel.getClassifications()
+  let select = "<select id='classification_id' name='classification_id' required>"
+  data.rows.forEach((row) => {
+  let selected;
+
+  if (row.classification_id == selectedValue) {
+    selected = "selected";
+  } else {
+    selected = "";
+  }
+  select += `<option value='${row.classification_id}' ${selected}>${row.classification_name}</option>`;
+    
+  })
+  select += "</select>"
+  return select;
+}
+
+Util.getSelect = async function (selectedValue) {
+  let data = await invModel.getClassifications()
+  let select = "<select id='classification_id' name='classification_id' required>"
+  data.rows.forEach((row) => {
+  let selected;
+
+  if (row.classification_id == selectedValue) {
+    selected = "selected";
+  } else {
+    selected = "";
+  }
+  select += `<option value='${row.classification_id}' ${selected}>${row.classification_name}</option>`;
+    
+  })
+  select += "</select>"
+  return select;
+}
 
 /* ****************************************
  * Middleware For Handling Errors

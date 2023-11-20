@@ -10,6 +10,11 @@ async function buildLogin(req, res, next) {
   res.render("account/login", {
     title: "Login",
     nav,
+    errors: null,
+      account_firstname: '',
+      account_lastname: '',
+      account_email: '',
+      account_password: '',
   })
 }
 
@@ -22,8 +27,13 @@ async function buildRegister(req, res, next) {
       title: "Register",
       nav,
       errors: null,
+      account_firstname: '',
+      account_lastname: '',
+      account_email: '',
+      account_password: '',
     })
 }
+
 
 /* ****************************************
 *  Process Registration
@@ -52,18 +62,21 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
         title: "Login",
         nav,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_password
     })
     } else {
       req.flash("notice", "Sorry, the registration failed.")
       res.status(501).render("account/register", {
         title: "Registration",
         nav,
+        errors: null,
+        account_firstname,
       })
     }
   }
 
-
-module.exports = { buildLogin }
-module.exports = { buildLogin, buildRegister }
 module.exports = { buildLogin, buildRegister, registerAccount }
 

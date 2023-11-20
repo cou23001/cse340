@@ -14,5 +14,9 @@
         <%- include('../partials/footer') %>
     </div>
     <script src="/js/script.js"></script>
+    <% if (req.method === 'GET' && req.originalUrl === '/inv/add/vehicle') { %>
+        <script src="/js/reset.js"></script>
+    <% } %>
+    
 </body>
 </html>
