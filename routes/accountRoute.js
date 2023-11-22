@@ -12,6 +12,23 @@ const regValidate = require('../utilities/account-validation')
 *  ***********************************  */
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
+// Process the login attempt
+/*
+router.post(
+    '/login',
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.loginAccount)
+)
+*/
+router.post(
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    (req, res) => {
+      res.status(200).send('login process')
+    }
+  )
 /* *************************************
 *  Deliver registration view
 *  Unit 4. deliver registration view activity
