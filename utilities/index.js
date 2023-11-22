@@ -119,7 +119,7 @@ Util.getSelect = async function (req, res, next, selectedValue) {
   return select;
 }
 
-Util.getSelect = async function (selectedValue) {
+Util.getSelectAlt = async function (selectedValue) {
   let data = await invModel.getClassifications()
   let select = "<select id='classification_id' name='classification_id' required>"
   data.rows.forEach((row) => {

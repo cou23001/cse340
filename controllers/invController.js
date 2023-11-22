@@ -70,7 +70,6 @@ invCont.buildMgmt = async function (req, res, next) {
 
 invCont.buildClassification = async function (req, res, next) {
   try {
-    console.log('addClasification')
     let nav = await utilities.getNav()
     const message = "Vehicle Management"
     res.render("./inventory/add/classification", {
@@ -95,18 +94,6 @@ invCont.buildVehicle = async function (req, res, next) {
       nav,
       select,
       errors: null,
-      inv_make: '',
-      inv_model: '',
-      inv_year: '',
-      inv_description: '',
-      inv_image: '',
-      inv_thumbnail: '',
-      inv_price: '',
-      inv_miles: '',
-      inv_color: '',
-      inv_color: '',
-      classification_id: '',
-      //req: req,
     })
   } catch (error) {
       next({status: 404, message: 'Sorry, management not available.'})
@@ -189,18 +176,9 @@ async function registerVehicle(req, res) {
     })
     } else {
         const { 
-          inv_make,
-          inv_model,
-          inv_year,
-          inv_description,
-          inv_image,
-          inv_thumbnail,
-          inv_price,
-          inv_miles,
-          inv_color,
           classification_id
         } = req.body
-        let select = await utilities.getSelect(classification_id)
+        let select = await utilities.getSelectAlt(classification_id)
         let nav = await utilities.getNav()
         req.flash("notice", "Sorry, the registration failed.")
         res.status(501).render("inventory/add/vehicle", {
@@ -208,16 +186,6 @@ async function registerVehicle(req, res) {
           nav,
           select,
           errors: null,
-          inv_make: inv_make,
-          inv_model: inv_model,
-          inv_year: inv_year,
-          inv_description: inv_description,
-          inv_image: inv_image,
-          inv_thumbnail: inv_thumbnail,
-          inv_price: inv_price,
-          inv_miles: inv_miles,
-          inv_color: inv_color,
-          classification_id: classification_id,
         })
         
     }
