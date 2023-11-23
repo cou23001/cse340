@@ -1,0 +1,9 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <h2 class="mgmt">Welcome <%= locals.account_firstname %> <%= locals.account_lastname %></h2>
+    <p>You are logged in</p>
+    <% } else {
+      res.redirect('/')
+} %>
+
+<%# messages() %>

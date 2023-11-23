@@ -2,10 +2,26 @@
 <% if (title) { %>
   <h1><%= title %></h1>
   <%- messages() %>
-  <div class="mgmt">
-    <h4><a href="/inv/add/classification">Add New Classification</a></h4>
-    <h4><a href="/inv/add/vehicle">Add New Car</a></h4>
-  </div>
+    <div class="mgmt">
+      <ul>
+        <li>
+          <a href="/inv/add/classification" title="Click to add a new Classification">Add New Classification</a>
+        </li>
+        <li>
+          <a href="/inv/add/vehicle" title="Click to add a new vehicle">Add New Car</a>
+        </li>
+      </ul>
+    
+      <h2>Management Inventory</h2>
+      <p>Choose a classification to see those inventory items.</p>
+      <%- classificationSelect %>
+
+      <table id="inventoryDisplay"></table>
+
+      <noscript>Javascript must be enabled to use this page.</noscript>
+      
+      <script src="/js/inventory.js"></script>
+    </div>
   <% } else {
     res.redirect('/')
 } %>

@@ -49,5 +49,21 @@ router.post(
     utilities.handleErrors(registerVehicle)
 )
 
+/** wk 5 */
+router.get(
+    "/getInventory/:classification_id",
+    utilities.handleErrors(invCont.getInventoryJSON)
+)
+
+router.get(
+    "/edit/:inv_id",
+    utilities.handleErrors(invCont.editInventoryView)
+)
+
+router.post(
+    "/update/", 
+    invCont.updateInventory
+)
+
 
 module.exports = router;

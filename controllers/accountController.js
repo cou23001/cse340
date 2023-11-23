@@ -1,6 +1,10 @@
 const utilities = require("../utilities/")
+const util = require('util');
 const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
+// Week 5. The cookies
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
   
 /* ****************************************
@@ -28,10 +32,6 @@ async function buildRegister(req, res, next) {
       title: "Register",
       nav,
       errors: null,
-      account_firstname: '',
-      account_lastname: '',
-      account_email: '',
-      account_password: '',
     })
 }
 
@@ -104,5 +104,55 @@ async function loginAccount(req, res) {
     errors: null
   })
 }
-module.exports = { buildLogin, buildRegister, registerAccount, loginAccount }
+
+/* ****************************************
+ *  Process login request
+ * ************************************ */
+async function accountLogin(req, res) {
+  let nav = await utilities.getNav()
+  const { account_email, account_password } = req.body
+  const accountData = await accountModel.getAccountByEmail(account_email)
+  let validUser = false
+  // Check if the user has valid credentials
+  if (await bcrypt.compare(account_password, accountData.account_password))
+    validUser = true
+  //if (!accountData) {
+  // change accountData to validUser to check credentials
+  if (!validUser) {
+   req.flash("notice", "Please check your credentials and try again.")
+   res.status(400).render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+    account_email,
+   })
+  return
+  }
+  try {
+   if (await bcrypt.compare(account_password, accountData.account_password)) {
+   delete accountData.account_password
+   const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+   res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+   return res.redirect("/account/")
+  }
+  } catch (error) {
+   return new Error('Access Forbidden')
+  }
+}
+
+/*
+w5. Account Management View
+*/
+async function buildManagement(req, res, next) {
+  let nav = await utilities.getNav()
+  
+  res.render("account/", {
+    title: "Account Management",
+    locals: res.locals.accountData,
+    nav,
+    errors: null,
+  })
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, accountLogin, buildManagement }
 
