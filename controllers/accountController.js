@@ -174,7 +174,7 @@ async function editAccountView(req, res, next) {
   
   let nav = await utilities.getNav()
   const itemName = `${itemData.account_firstname} ${itemData.account_lastname}`
-  res.render("./account/edit-account", {
+  res.render("account/edit-account", {
     title: "Edit Account " + itemName,
     nav,
     errors: null,

@@ -187,8 +187,8 @@ validate.accountRules = () => {
     .withMessage("A valid email is required.")
     .custom(async (account_email) => {
         const emailExists = await accountModel.checkExistingEmail(account_email)
-        if (!emailExists) {
-          throw new Error('Email ' + account_email + ' does not exist. Please login with a different email')
+        if (emailExists) {
+          throw new Error('Email ' + account_email + ' exist. Please use a different email')
         }
     }),
 
@@ -199,7 +199,8 @@ validate.accountRules = () => {
  * Check data and return errors or continue to update account
  * ***************************** */
 validate.checkAccountData = async (req, res, next) => {
-  const { account_id, account_password } = req.body
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+
   let errors = []
   errors = validationResult(req)
 
@@ -209,6 +210,10 @@ validate.checkAccountData = async (req, res, next) => {
       errors,
       title: "Update password",
       locals: res.locals,
+      account_id,
+      account_email,
+      account_firstname,
+      account_lastname,
       nav,
     })
     return
