@@ -1,7 +1,22 @@
 <% if (title) { %>
+  <div class="mgmt">
     <h1><%= title %></h1>
-    <h2 class="mgmt">Welcome <%= locals.account_firstname %> <%= locals.account_lastname %></h2>
+    <%- messages() %>
+    <% if (errors) { %>
+      <ul class="notice">
+     <% errors.array().forEach(error => { %>
+       <li><%= error.msg %></li>
+    <%  }) %>
+     </ul>
+    <% } %>
+    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
     <p>You are logged in</p>
+    <p><a href="/account/edit/<%= locals.accountData.account_id %>">Edit Account Information</a></p>
+    <% if (locals.accountData.account_type != 'Client') {%>
+      <h3>Inventory Management</h3>
+      <p><a href="/inv">Manage Inventory</a></p>
+    <% } %>
+  </div>
     <% } else {
       res.redirect('/')
 } %>

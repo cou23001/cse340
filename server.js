@@ -66,7 +66,10 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(require("./routes/static"))
 
 // Index route
-app.get("/", utilities.handleErrors(baseController.buildHome))
+app.get(
+  "/", 
+  utilities.handleErrors(baseController.buildHome)
+)
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
@@ -75,7 +78,10 @@ app.use("/inv", inventoryRoute)
 app.use("/mgmt", mgmtRoute)
 
 // Account routes - Unit 4. activity
-app.use("/account", accountRoute)
+app.use(
+  "/account", 
+  utilities.handleErrors(accountRoute)
+)
 
 // Middleware to simulate a 500 error
 app.use('/simulate-500', (req, res, next) => {

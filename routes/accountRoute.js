@@ -10,7 +10,10 @@ const regValidate = require('../utilities/account-validation')
 *  Deliver login view
 *  Unit 4. deliver login view activity
 *  ***********************************  */
-router.get("/login", utilities.handleErrors(accountController.buildLogin));
+router.get(
+  "/login", 
+  utilities.handleErrors(accountController.buildLogin)
+)
 
 // Process the login attempt
 router.post(
@@ -18,12 +21,15 @@ router.post(
     regValidate.loginRules(),
     regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin)
-  )
+)
 /* *************************************
 *  Deliver registration view
 *  Unit 4. deliver registration view activity
 *  ***********************************  */
-router.get("/register", utilities.handleErrors(accountController.buildRegister));
+router.get(
+  "/register",
+  utilities.handleErrors(accountController.buildRegister)
+);
 
 /* *************************************
 *  Deliver registration adding
@@ -47,5 +53,32 @@ router.get(
   utilities.handleErrors(accountController.buildManagement)
 )
 
+router.get(
+  "/logout", 
+  utilities.handleErrors(accountController.accountLogout)
+)
+
+/* *************************************
+*  Deliver Edit Account View
+*  Unit 5. 
+*  ***********************************  */
+router.get(
+  "/edit/:account_id",
+  utilities.handleErrors(accountController.editAccountView)
+)
+
+router.post(
+  "/update/", 
+  regValidate.accountRules(),
+  regValidate.checkAccountData,
+  accountController.updateAccount
+)
+
+router.post(
+  "/update-pass/", 
+  regValidate.passwordRules(),
+  regValidate.checkPassData,
+  accountController.updatePassword
+)
 
 module.exports = router;

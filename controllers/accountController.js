@@ -5,7 +5,8 @@ const bcrypt = require("bcryptjs")
 // Week 5. The cookies
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-
+const accountValidation = require('../utilities/account-validation');
+const { validationResult } = require('express-validator');
   
 /* ****************************************
 *  Deliver login view
@@ -14,6 +15,7 @@ async function buildLogin(req, res, next) {
   let nav = await utilities.getNav()
   res.render("account/login", {
     title: "Login",
+    res,
     nav,
     errors: null,
       account_firstname: '',
@@ -27,9 +29,10 @@ async function buildLogin(req, res, next) {
 *  Deliver registration view
 * *************************************** */
 async function buildRegister(req, res, next) {
-    let nav = await utilities.getNav()
+    let nav = await utilities.getNav()    
     res.render("account/register", {
       title: "Register",
+      res,
       nav,
       errors: null,
     })
@@ -57,6 +60,7 @@ async function registerAccount(req, res) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/register", {
       title: "Registration",
+      res,
       nav,
       errors: null,
     })
@@ -76,6 +80,7 @@ async function registerAccount(req, res) {
   )
   res.status(201).render("account/login", {
       title: "Login",
+      res,
       nav,
       account_email,
       errors: null,
@@ -84,6 +89,7 @@ async function registerAccount(req, res) {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
       title: "Registration",
+      res,
       nav,
       errors: null,
       account_firstname,
@@ -95,10 +101,9 @@ async function registerAccount(req, res) {
 
 async function loginAccount(req, res) {
   let nav = await utilities.getNav()
-  flag = 'good'
-  console.log('good')
   res.status(201).render("account/login", {
     title: "Login",
+    res,
     nav,
     account_email:'',
     errors: null
@@ -122,6 +127,7 @@ async function accountLogin(req, res) {
    req.flash("notice", "Please check your credentials and try again.")
    res.status(400).render("account/login", {
     title: "Login",
+    res,
     nav,
     errors: null,
     account_email,
@@ -148,11 +154,113 @@ async function buildManagement(req, res, next) {
   
   res.render("account/", {
     title: "Account Management",
-    locals: res.locals.accountData,
+    type: 'Client',
     nav,
     errors: null,
   })
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, accountLogin, buildManagement }
+/* ****************************************
+ *  Logout
+ * *************************************** */
+function accountLogout(req, res) {
+  res.clearCookie("jwt");
+  res.redirect("/");
+}
+
+async function editAccountView(req, res, next) {
+  const account_id = parseInt(req.params.account_id)
+  const itemData = await accountModel.getDetailByAccountId(account_id)
+  
+  let nav = await utilities.getNav()
+  const itemName = `${itemData.account_firstname} ${itemData.account_lastname}`
+  res.render("./account/edit-account", {
+    title: "Edit Account " + itemName,
+    nav,
+    errors: null,
+    account_id: itemData.account_id,
+    account_firstname: itemData.account_firstname,
+    account_lastname: itemData.account_lastname,
+    account_email: itemData.account_email,
+    account_password: itemData.account_password,
+  })
+}
+
+async function updateAccount(req, res, next) {
+  const action = req.body.action;
+  let nav = await utilities.getNav()
+
+  const {
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+  } = req.body
+  const updateResult = await accountModel.updateAccount(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+  )
+
+  if (updateResult) {
+    const itemName = updateResult.account_firstname
+    req.flash("notice", `The ${itemName} user was successfully updated.`)
+    res.redirect("/account")
+  } else {
+    const itemName = `${account_firstname}`
+    req.flash("notice", "Sorry, the insert failed. " + itemName)
+    res.status(501).render("account/edit-account", {
+    title: "Edit " + itemName,
+    nav,
+    errors: null,
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+    })
+  }
+  
+}
+
+async function updatePassword(req, res, next) {
+  const action = req.body.action;
+  let nav = await utilities.getNav()
+  
+  const {
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password,
+  } = req.body
+  let hashedPassword = await bcrypt.hashSync(account_password, 10)
+  
+  const updateResult = await accountModel.updatePassword(
+    account_id,
+    hashedPassword,
+  )
+  
+  if (updateResult) {
+    const itemName = updateResult.account_firstname
+    req.flash("notice", `The ${itemName} password was successfully updated.`)
+    res.clearCookie("jwt");
+    res.redirect("/account/login");
+    //res.redirect("/account")
+  } else {
+    const itemName = `${account_firstname}`
+    req.flash("notice", "Sorry, the insert failed. " + itemName)
+    res.status(501).render("account/edit-account", {
+    title: "Edit " + itemName,
+    nav,
+    errors: null,
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+    })
+  }
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, accountLogin, buildManagement, accountLogout, editAccountView, updateAccount, updatePassword }
 

@@ -3,6 +3,7 @@ const accountModel = require("../models/account-model")
 const { body, validationResult } = require("express-validator")
 const validate = {}
 
+
 /*  **********************************
  *  Registration Data Validation Rules
  * ********************************* */
@@ -114,6 +115,101 @@ validate.loginRules = () => {
       title: "Login",
       nav,
       account_email,
+    })
+    return
+  }
+  next()
+}
+
+/*  **********************************
+ *  Login Data Validation Rules
+ * ********************************* */
+validate.passwordRules = () => {
+  //console.log('checkPass')
+  return [
+    // password is required and must be strong password
+    body("account_password")
+        .trim()
+        .isStrongPassword({
+          minLength: 12,
+          minLowercase: 1,
+          minUppercase: 1,
+          minNumbers: 1,
+          minSymbols: 1,
+        })
+        .withMessage("Password does not meet requirements."),
+  ]
+}
+
+ /* ******************************
+ * Check data and return errors or continue to registration
+ * ***************************** */
+ validate.checkPassData = async (req, res, next) => {
+  const { account_id, account_password } = req.body
+  let errors = []
+  errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/edit-account", {
+      errors,
+      title: "Update password",
+      locals: res.locals.accountData,
+      nav,
+    })
+    return
+  }
+  next()
+}
+
+/*  **********************************
+ *  Account Data Validation Rules
+ * ********************************* */
+validate.accountRules = () => {
+  return [
+    // firstname is required and must be string
+    body("account_firstname")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Please provide a first name."), // on error this message is sent.
+
+    // lastname is required and must be string
+    body("account_lastname")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a last name."),
+
+    // valid email is required and cannot already exist in the DB
+    body("account_email")
+    .trim()
+    .isEmail()
+    .normalizeEmail()
+    .withMessage("A valid email is required.")
+    .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(account_email)
+        if (!emailExists) {
+          throw new Error('Email ' + account_email + ' does not exist. Please login with a different email')
+        }
+    }),
+
+  ]
+}
+
+/* ******************************
+ * Check data and return errors or continue to update account
+ * ***************************** */
+validate.checkAccountData = async (req, res, next) => {
+  const { account_id, account_password } = req.body
+  let errors = []
+  errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/edit-account", {
+      errors,
+      title: "Update password",
+      locals: res.locals,
+      nav,
     })
     return
   }

@@ -60,15 +60,27 @@ invCont.buildMgmt = async function (req, res, next) {
     let nav = await utilities.getNav()
     const message = "Vehicle Management"
     const classificationSelect = await utilities.getSelect()
-    //console.log('class->',classificationSelect)
-    res.render("inventory/mgmt", {
+    
+    if (res.locals.accountData == null) {
+      res.redirect('/account/login')
+    }
+    else {
+      const type = res.locals.accountData.account_type
+      if (type == 'Admin' || type == 'Employee') {
+        res.render("inventory/mgmt", {
         title: message,
+        type,
         classificationSelect,
         nav,
-     })
-    } catch (error) {
-        next({status: 404, message: 'Sorry, management not available.'})
+      })
+      } else {
+        res.redirect('/account/login')
+      }
     }
+    
+  } catch (error) {
+    next({status: 404, message: 'Sorry, management not available.'})
+  }
 }
 
 invCont.buildClassification = async function (req, res, next) {

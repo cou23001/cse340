@@ -404,6 +404,10 @@ footer {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.login h2 {
+  text-align: left;
+}
+
 .toggle-password-icon {
   position: absolute;
   top: 50%;
@@ -463,7 +467,7 @@ input:required:valid {
 }
 
 .mgmt p {
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 

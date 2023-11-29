@@ -15,10 +15,17 @@ router.get("/type/:classificationId", invCont.buildByClassificationId);
 router.get("/detail/:carId", invCont.buildByCarId);
 
 // Route to the management
-router.get("/", invCont.buildMgmt);
+router.get(
+    "/",
+    //utilities.checkLogin,
+    utilities.handleErrors(invCont.buildMgmt)
+)
 
 // Route to the management add classification
-router.get("/add/classification", utilities.handleErrors(invCont.buildClassification));
+router.get(
+    "/add/classification", 
+    utilities.handleErrors(invCont.buildClassification)
+)
 
 //router.post('/add/classification',registerClassification)
 
@@ -35,7 +42,10 @@ router.post(
 )
 
 // Route to the management add vehicles
-router.get("/add/vehicle", utilities.handleErrors(invCont.buildVehicle));
+router.get(
+    "/add/vehicle", 
+    utilities.handleErrors(invCont.buildVehicle)
+)
 
 /* *************************************
 *  Classification adding
@@ -52,6 +62,7 @@ router.post(
 /** wk 5 */
 router.get(
     "/getInventory/:classification_id",
+    //utilities.checkAccountType,
     utilities.handleErrors(invCont.getInventoryJSON)
 )
 
