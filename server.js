@@ -113,7 +113,6 @@ app.use(
 
 // Middleware to simulate a 500 error
 app.use('/simulate-500', (req, res, next) => {
-  console.log('Reached /simulate-500 route');
   next({status: 500, message: 'Simulated 500 Internal Server Error.'})
 });
 

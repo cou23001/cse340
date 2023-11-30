@@ -4,7 +4,6 @@ const mgmtModel = require("../models/mgmt-model")
 
 async function buildClassification (req, res, next) {
   try {
-    console.log('mmgmtController-buildClasification')
     let nav = await utilities.getNav()
     const message = "Vehicle Management"
     res.render("inventory/add/classification", {
@@ -20,7 +19,6 @@ async function buildClassification (req, res, next) {
 *  Process Registration
 * *************************************** */
 async function registerClassification(req, res) {
-  console.log('registerClassification')
   let nav = await utilities.getNav()
   const { 
     classification_name
@@ -32,7 +30,7 @@ async function registerClassification(req, res) {
   
   if (regResult) {
     req.flash(
-        "notice",
+        "success",
         `Congratulations, you have registered ${classification_name}.`
     )
     res.status(201).render("inventory/mgmt", {
@@ -48,10 +46,4 @@ async function registerClassification(req, res) {
     }
 }
 
-
-
-//module.exports = invCont,registerClassification
-//module.exports = { invCont, registerClassification }
-module.exports = {registerClassification}
 module.exports = {registerClassification,buildClassification}
-//module.exports = { registerClassification }

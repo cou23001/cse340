@@ -19,5 +19,4 @@ router.post(
     utilities.handleErrors(mgmtController.registerClassification)
 )
 
-
 module.exports = router;

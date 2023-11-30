@@ -1,5 +1,11 @@
-const form = document.querySelector("#updateForm")
-    form.addEventListener("change", function () {
-      const updateBtn = document.querySelector("button")
-      updateBtn.removeAttribute("disabled")
-    })
+function enableUpdateButton(formId) {
+  const form = document.querySelector(formId);
+  form.addEventListener("change", function () {
+    const updateBtn = form.querySelector("button");
+    updateBtn.removeAttribute("disabled");
+  });
+}
+
+enableUpdateButton("#updateForm");
+
+enableUpdateButton("#updatePassForm");

@@ -120,7 +120,6 @@ invCont.buildVehicle = async function (req, res, next) {
 *  Process Registration
 * *************************************** */
 async function registerClassification(req, res) {
-  console.log('registerClassification')
   let nav = await utilities.getNav()
   const { 
     classification_name
@@ -132,7 +131,7 @@ async function registerClassification(req, res) {
   
   if (regResult) {
     req.flash(
-        "notice",
+        "success",
         `The ${classification_name} classificaton was succesfully added.`
     )
     nav = await utilities.getNav()
@@ -184,7 +183,7 @@ async function registerVehicle(req, res) {
   
   if (regResult && regResult.rows && regResult.rows.length > 0) {
     req.flash(
-        "notice",
+        "success",
         `The ${inv_make} vehicle was succesfully added.`
     )
     nav = await utilities.getNav()
@@ -286,7 +285,7 @@ invCont.updateInventory = async function (req, res, next) {
 
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model
-    req.flash("notice", `The ${itemName} was successfully updated.`)
+    req.flash("success", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
     const classificationSelect = await utilities.buildClassificationList(classification_id)
@@ -344,7 +343,7 @@ invCont.deleteInventory = async function (req, res, next) {
 
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model
-    req.flash("notice", `The ${itemName} was successfully deleted.`)
+    req.flash("success", `The ${itemName} was successfully deleted.`)
     res.redirect("/inv/")
   } else {
     const classificationSelect = await utilities.buildClassificationList(classification_id)

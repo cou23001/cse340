@@ -75,7 +75,7 @@ async function registerAccount(req, res) {
   
   if (regResult) {
       req.flash(
-          "notice",
+          "success",
           `Congratulations, you\'re registered ${account_firstname}. Please log in.`
   )
   res.status(201).render("account/login", {
@@ -182,11 +182,6 @@ function accountLogout(req, res) {
 async function editAccountView(req, res, next) {
   const account_id = parseInt(req.params.account_id)
   const itemData = await accountModel.getDetailByAccountId(account_id)
-
-  //const checkAccountData = await accountModel.getAccountByEmail(account_email)
-  //console.log('checkAccountData.account_firstname-> ',itemData.account_firstname)
-  //res.locals.accountData.account_firstname = item.account_firstname
-
   
   let nav = await utilities.getNav()
   const itemName = `${itemData.account_firstname} ${itemData.account_lastname}`
@@ -219,21 +214,10 @@ async function updateAccount(req, res, next) {
     account_email,
   )
 
-  //console.log("updateResult:", updateResult);
-
   if (updateResult) {
     const itemName = updateResult.account_firstname
     req.flash("success", `The ${itemName} user was successfully updated.`)
-    // Update the accountData in res.locals with the new first name
-    res.locals.accountData.account_firstname = updateResult.account_firstname;
-
-    //res.redirect("/account")
-
-    res.render("account/", {
-      title: "Account Management",
-      nav,
-      errors: null,
-    })
+    res.redirect("/account")
 
   } else {
     const itemName = `${account_firstname}`
@@ -271,10 +255,9 @@ async function updatePassword(req, res, next) {
   
   if (updateResult) {
     const itemName = updateResult.account_firstname
-    req.flash("notice", `The ${itemName} password was successfully updated.`)
+    req.flash("success", `The ${itemName} password was successfully updated.`)
     res.clearCookie("jwt");
     res.redirect("/account/login");
-    //res.redirect("/account")
   } else {
     const itemName = `${account_firstname}`
     req.flash("notice", "Sorry, the insert failed. " + itemName)

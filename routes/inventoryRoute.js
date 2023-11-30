@@ -1,7 +1,6 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
-const mgmtController = require("../controllers/mgmtController")
 const { invCont, registerClassification, registerVehicle } = require('../controllers/invController');
 const utilities = require("../utilities")
 const regValidate = require('../utilities/class-validation')
