@@ -151,13 +151,24 @@ w5. Account Management View
 */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
-  
-  res.render("account/", {
-    title: "Account Management",
-    type: 'Client',
-    nav,
-    errors: null,
-  })
+
+  accountType = res.locals.accountData.account_type
+
+  if (accountType === 'Admin' || accountType === 'Employee') {
+    // Render the management account page
+    res.render('account/', {
+      title: 'Account Management',
+      nav,
+      errors: null,
+    });
+  } else {
+    // Render the client account page
+    res.render('account/client', {
+      title: 'Client Account',
+      nav,
+      errors: null,
+    });
+  }
 }
 
 /* ****************************************

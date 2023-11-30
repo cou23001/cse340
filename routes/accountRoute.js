@@ -49,7 +49,15 @@ router.post(
 //router.get("/", utilities.handleErrors(accountController.buildUser));
 router.get(
   "/", 
-  utilities.checkLogin, 
+  utilities.checkLogin,
+  //utilities.checkAccountType,
+  utilities.handleErrors(accountController.buildManagement)
+)
+
+router.get(
+  "/account", 
+  utilities.checkLogin,
+  //utilities.checkAccountType,
   utilities.handleErrors(accountController.buildManagement)
 )
 

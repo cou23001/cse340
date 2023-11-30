@@ -180,10 +180,12 @@ Util.checkLogin = (req, res, next) => {
  *  Check Login
  * ************************************ */
 Util.checkAccountType = (req, res, next) => {
-  if (res.locals.loggedin) {
+  console.log('checkAccountType')
+  account = res.locals.accountData.account_type
+  if (account == 'Admin' || account == 'Employee') {
     next()
   } else {
-    req.flash("notice", "Please log in.")
+    req.flash("notice", "The user is not allowed.")
     return res.redirect("/account/login")
   }
  }

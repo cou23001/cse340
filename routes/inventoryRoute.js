@@ -3,7 +3,6 @@ const express = require("express")
 const router = new express.Router() 
 const mgmtController = require("../controllers/mgmtController")
 const { invCont, registerClassification, registerVehicle } = require('../controllers/invController');
-
 const utilities = require("../utilities")
 const regValidate = require('../utilities/class-validation')
 const vehicleValidate = require('../utilities/vehicle-validation')
@@ -17,7 +16,8 @@ router.get("/detail/:carId", invCont.buildByCarId);
 // Route to the management
 router.get(
     "/",
-    //utilities.checkLogin,
+    utilities.checkLogin,
+    utilities.checkAccountType,
     utilities.handleErrors(invCont.buildMgmt)
 )
 
@@ -26,8 +26,6 @@ router.get(
     "/add/classification", 
     utilities.handleErrors(invCont.buildClassification)
 )
-
-//router.post('/add/classification',registerClassification)
 
 /* *************************************
 *  Deliver registration adding
@@ -62,7 +60,7 @@ router.post(
 /** wk 5 */
 router.get(
     "/getInventory/:classification_id",
-    //utilities.checkAccountType,
+    utilities.checkAccountType,
     utilities.handleErrors(invCont.getInventoryJSON)
 )
 
@@ -73,7 +71,7 @@ router.get(
 
 router.post(
     "/update/", 
-    invCont.updateInventory
+    utilities.handleErrors(invCont.updateInventory)
 )
 
 /*
@@ -86,7 +84,7 @@ router.get(
 
 router.post(
     "/delete/", 
-    invCont.deleteInventory
+    utilities.handleErrors(invCont.deleteInventory)
 )
 
 
