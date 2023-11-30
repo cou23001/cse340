@@ -4,13 +4,11 @@ function togglePassword() {
   
     if (passwordInput.type === "password") {
       passwordInput.type = "text";
-      toggleIcon.classList.remove("fa-eye-slash");
-      toggleIcon.classList.add("fa-eye");
+      toggleIcon.src = "/images/fonts/eye-solid.svg";
       
     } else {
       passwordInput.type = "password";
-      toggleIcon.classList.remove("fa-eye");
-      toggleIcon.classList.add("fa-eye-slash");
+      toggleIcon.src = "/images/fonts/eye-slash-solid.svg";
       
     }
 }

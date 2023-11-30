@@ -504,6 +504,11 @@ input:required:valid {
   text-decoration: underline;
 }
 
+.toggle-password-icon {
+  width: 20px; 
+  height: 20px;
+}
+
 
   @media (min-width: 769px) {
     
