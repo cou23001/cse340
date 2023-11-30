@@ -135,9 +135,11 @@ async function registerClassification(req, res) {
         `The ${classification_name} classificaton was succesfully added.`
     )
     nav = await utilities.getNav()
+    const classificationSelect = await utilities.getSelect()
     res.status(201).render("inventory/mgmt", {
         title: "Vehicle Management",
         nav,
+        classificationSelect,
     })
     } else {
         req.flash("notice", "Sorry, the registration failed.")
