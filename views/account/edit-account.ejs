@@ -21,7 +21,7 @@
         <label for="account_email">Email:</label>
         <input type="email" id="account_email" name="account_email" value="<%= account_email %>" pattern="[^\s]+" required>
     
-        <button type="submit" name="action" value="updateAccount">Update</button>
+        <button type="submit" name="action" value="updateAccount" disabled>Update</button>
         <input type="hidden" name="account_id"
         <% if(account_id) { %> value="<%= account_id %>"
 <% } %>>
@@ -46,12 +46,11 @@
             <img src="/images/fonts/eye-solid.svg" alt="Toggle Password" class="toggle-password-icon" id="toggle_password" onclick="togglePassword()">
           </div>
           
-          <button type="submit" name="action" value="updatePassword">Update Password</button>
-
+          <button type="submit" name="action" value="updatePassword" disabled>Update Password</button>
           
         </form>
-      <script src="/js/inv-update.js"></script>
-      <script src="/js/script.js"></script>
+        <script src="/js/inv-update.js"></script>
+        <script src="/js/script.js"></script>
 
     </div>
     <% } else {

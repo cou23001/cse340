@@ -57,7 +57,6 @@ router.get(
 router.get(
   "/account", 
   utilities.checkLogin,
-  //utilities.checkAccountType,
   utilities.handleErrors(accountController.buildManagement)
 )
 

@@ -41,9 +41,9 @@ Util.buildClassificationGrid = async function(data){
         + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
         + ' details"><img src="' + vehicle.inv_thumbnail 
         +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-        +' on CSE Motors" /></a>'
+        +' on CSE Motors"></a>'
         grid += '<div class="namePrice">'
-        grid += '<hr />'
+        grid += '<hr>'
         grid += '<h2>'
         grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
         + vehicle.inv_make + ' ' + vehicle.inv_model + 'details">' 
@@ -180,7 +180,6 @@ Util.checkLogin = (req, res, next) => {
  *  Check Login
  * ************************************ */
 Util.checkAccountType = (req, res, next) => {
-  console.log('checkAccountType')
   account = res.locals.accountData.account_type
   if (account == 'Admin' || account == 'Employee') {
     next()
