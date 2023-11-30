@@ -14,10 +14,9 @@ router.get("/add/classification", mgmtController.buildClassification);
 *  ***********************************  */
 router.post(
     '/add/classification',
-    //regValidate.registrationRules(),
-    //regValidate.checkRegData,
-    //utilities.handleErrors(mgmtController.registerClassification)
-    mgmtController.registerClassification
+    regValidate.registrationRules(),
+    regValidate.checkRegData,
+    utilities.handleErrors(mgmtController.registerClassification)
 )
 
 

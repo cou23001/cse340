@@ -8,10 +8,14 @@ const regValidate = require('../utilities/class-validation')
 const vehicleValidate = require('../utilities/vehicle-validation')
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invCont.buildByClassificationId);
+router.get(
+    "/type/:classificationId", 
+    utilities.handleErrors(invCont.buildByClassificationId))
 
 // Route to display car
-router.get("/detail/:carId", invCont.buildByCarId);
+router.get(
+    "/detail/:carId", 
+    utilities.handleErrors(invCont.buildByCarId))
 
 // Route to the management
 router.get(

@@ -279,6 +279,11 @@ footer {
   color: red;
 }
 
+.success {
+  color: white;
+  background-color: green;
+}
+
 .inv-card {
   display: grid;
   grid-template-columns: 1fr; 

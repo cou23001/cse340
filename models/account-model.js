@@ -92,4 +92,22 @@ async function updatePassword(
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getDetailByAccountId, updateAccount, updatePassword }
+/**
+ * Check user email
+ */
+async function checkUserEmail(
+  account_id
+) {
+  try {
+    const sql = "SELECT account_email FROM public.account WHERE account_id = $1"
+    const data = await pool.query(sql, [
+      account_id,
+    ])
+    //console.log('data->',data.rows[0].account_email)
+    return data.rows[0].account_email
+  } catch (error) {
+      console.error("model error: " + error)
+  }
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getDetailByAccountId, updateAccount, updatePassword, checkUserEmail }

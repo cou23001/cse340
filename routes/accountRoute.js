@@ -50,7 +50,6 @@ router.post(
 router.get(
   "/", 
   utilities.checkLogin,
-  //utilities.checkAccountType,
   utilities.handleErrors(accountController.buildManagement)
 )
 
@@ -78,14 +77,14 @@ router.post(
   "/update/", 
   regValidate.accountRules(),
   regValidate.checkAccountData,
-  accountController.updateAccount
+  utilities.handleErrors(accountController.updateAccount)
 )
 
 router.post(
   "/update-pass/", 
   regValidate.passwordRules(),
   regValidate.checkPassData,
-  accountController.updatePassword
+  utilities.handleErrors(accountController.updatePassword)
 )
 
 module.exports = router;
