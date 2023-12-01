@@ -69,13 +69,12 @@ invCont.buildMgmt = async function (req, res, next) {
       const type = res.locals.accountData.account_type
       if (type == 'Admin' || type == 'Employee') {
         res.render("inventory/mgmt", {
-        title: message,
-        type,
-        classificationSelect,
-        nav,
-      })
+          title: message,
+          classificationSelect,
+          nav,
+        })
       } else {
-        res.redirect('/account/login')
+          res.redirect('/account/login')
       }
     }
     
