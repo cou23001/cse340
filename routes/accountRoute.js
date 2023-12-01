@@ -63,7 +63,7 @@ router.get(
 *  Unit 5. 
 *  ***********************************  */
 router.get(
-  "/edit/:account_id",
+  "/edit/",
   utilities.handleErrors(accountController.editAccountView)
 )
 

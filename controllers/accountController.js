@@ -162,7 +162,7 @@ function accountLogout(req, res) {
 }
 
 async function editAccountView(req, res, next) {
-  const account_id = parseInt(req.params.account_id)
+  const account_id = res.locals.accountData.account_id
   const itemData = await accountModel.getDetailByAccountId(account_id)
   
   let nav = await utilities.getNav()
