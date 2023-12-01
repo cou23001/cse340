@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const accountValidation = require('../utilities/account-validation');
 const { validationResult } = require('express-validator');
+const { error } = require("console");
   
 /* ****************************************
 *  Deliver login view
@@ -15,13 +16,8 @@ async function buildLogin(req, res, next) {
   let nav = await utilities.getNav()
   res.render("account/login", {
     title: "Login",
-    res,
     nav,
     errors: null,
-      account_firstname: '',
-      account_lastname: '',
-      account_email: '',
-      account_password: '',
   })
 }
 
@@ -32,7 +28,6 @@ async function buildRegister(req, res, next) {
     let nav = await utilities.getNav()    
     res.render("account/register", {
       title: "Register",
-      res,
       nav,
       errors: null,
     })
@@ -60,7 +55,7 @@ async function registerAccount(req, res) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/register", {
       title: "Registration",
-      res,
+      //res,
       nav,
       errors: null,
     })
@@ -80,34 +75,17 @@ async function registerAccount(req, res) {
   )
   res.status(201).render("account/login", {
       title: "Login",
-      res,
       nav,
-      account_email,
       errors: null,
   })
   } else {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
       title: "Registration",
-      res,
       nav,
       errors: null,
-      account_firstname,
-      account_lastname,
-      account_email
     })
   }
-}
-
-async function loginAccount(req, res) {
-  let nav = await utilities.getNav()
-  res.status(201).render("account/login", {
-    title: "Login",
-    res,
-    nav,
-    account_email:'',
-    errors: null
-  })
 }
 
 /* ****************************************
@@ -119,27 +97,31 @@ async function accountLogin(req, res) {
   const accountData = await accountModel.getAccountByEmail(account_email)
   let validUser = false
   // Check if the user has valid credentials
-  if (await bcrypt.compare(account_password, accountData.account_password))
+  if (await bcrypt.compare(account_password, accountData.account_password)) {
     validUser = true
+  }
   //if (!accountData) {
   // change accountData to validUser to check credentials
   if (!validUser) {
-   req.flash("notice", "Please check your credentials and try again.")
-   res.status(400).render("account/login", {
-    title: "Login",
-    res,
-    nav,
-    errors: null,
-    account_email,
-   })
-  return
+    req.flash("notice", "Please check your credentials and try again.")
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    })
+    return
   }
+
   try {
-   if (await bcrypt.compare(account_password, accountData.account_password)) {
-   delete accountData.account_password
-   const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-   res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-   return res.redirect("/account/")
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+    delete accountData.account_password
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    
+    res.locals.loggedin = 1
+    
+    return res.redirect("/account/")
   }
   } catch (error) {
    return new Error('Access Forbidden')
@@ -193,7 +175,6 @@ async function editAccountView(req, res, next) {
     account_firstname: itemData.account_firstname,
     account_lastname: itemData.account_lastname,
     account_email: itemData.account_email,
-    account_password: itemData.account_password,
   })
 }
 
@@ -216,23 +197,32 @@ async function updateAccount(req, res, next) {
 
   if (updateResult) {
     const itemName = updateResult.account_firstname
+    // Update the accountData info
+    res.locals.accountData.account_firstname = itemName
+    res.locals.accountData.account_lastname = updateResult.account_lastname
+    res.locals.accountData.account_email = updateResult.account_email
     req.flash("success", `The ${itemName} user was successfully updated.`)
-    res.redirect("/account")
-
+    
+    // Update cookie
+    res.clearCookie("jwt");
+    accountData = res.locals.accountData
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET)
+    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    
+    res.redirect('/account');
   } else {
     const itemName = `${account_firstname}`
     req.flash("notice", "Sorry, the insert failed. " + itemName)
     res.status(501).render("account/edit-account", {
-    title: "Edit " + itemName,
-    nav,
-    errors: null,
-    account_id,
-    account_firstname,
-    account_lastname,
-    account_email,
+      title: "Edit " + itemName,
+      nav,
+      errors: null,
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
     })
   }
-  
 }
 
 async function updatePassword(req, res, next) {
@@ -262,16 +252,15 @@ async function updatePassword(req, res, next) {
     const itemName = `${account_firstname}`
     req.flash("notice", "Sorry, the insert failed. " + itemName)
     res.status(501).render("account/edit-account", {
-    title: "Edit " + itemName,
-    nav,
-    errors: null,
-    account_id,
-    account_firstname,
-    account_lastname,
-    account_email,
+      title: "Edit " + itemName,
+      nav,
+      errors: null,
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
     })
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, loginAccount, accountLogin, buildManagement, accountLogout, editAccountView, updateAccount, updatePassword }
-
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, accountLogout, editAccountView, updateAccount, updatePassword }

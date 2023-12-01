@@ -62,32 +62,6 @@ app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
 
-
-const updateAccountDataLocals = async (req, res, next) => {
-  try {
-    if (res.locals.loggedin == 1) {
-      const accountData = res.locals.accountData
-      account_id = accountData.account_id
-    
-      const itemData = await accountModel.getDetailByAccountId(account_id)
-      res.locals.accountData = {
-        account_id: itemData.account_id,
-        account_firstname: itemData.account_firstname,
-        account_lastname: itemData.account_lastname,
-        account_email: itemData.account_email,
-        account_type: itemData.account_type,
-      }
-    }
-      
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Update account data in locals middleware
-app.use(updateAccountDataLocals);
-
 /* ***********************
  * Routes
  *************************/

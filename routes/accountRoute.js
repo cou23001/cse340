@@ -54,12 +54,6 @@ router.get(
 )
 
 router.get(
-  "/account", 
-  utilities.checkLogin,
-  utilities.handleErrors(accountController.buildManagement)
-)
-
-router.get(
   "/logout", 
   utilities.handleErrors(accountController.accountLogout)
 )

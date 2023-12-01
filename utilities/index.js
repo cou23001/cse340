@@ -92,17 +92,6 @@ Util.buildDetailAuto = async function(vehicle) {
 /* ************************
  * Constructs the select element of Classification
  ************************** */
-/*
-Util.getSelect = async function (req, res, next) {
-  let data = await invModel.getClassifications()
-  let select = "<select id='classification_id' name='classification_id' required>"
-  data.rows.forEach((row) => {
-    select += "<option value='" + row.classification_id + "'>" + row.classification_name + "</option>";
-  })
-  select += "</select>"
-  return select
-}
-*/
 
 Util.getSelect = async function (req, res, next, selectedValue) {
   let data = await invModel.getClassifications()
@@ -149,17 +138,17 @@ Util.checkJWTToken = (req, res, next) => {
     req.cookies.jwt,
     process.env.ACCESS_TOKEN_SECRET,
     function (err, accountData) {
-     if (err) {
-      req.flash("Please log in")
-      res.clearCookie("jwt")
-      return res.redirect("/account/login")
-     }
-     res.locals.accountData = accountData
-     res.locals.loggedin = 1
-     next()
+      if (err) {
+        req.flash("Please log in")
+        res.clearCookie("jwt")
+        return res.redirect("/account/login")
+      }
+      res.locals.accountData = accountData
+      res.locals.loggedin = 1
+      next()
     })
   } else {
-   next()
+      next()
   }
  }
 
