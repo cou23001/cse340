@@ -162,6 +162,10 @@ function accountLogout(req, res) {
 }
 
 async function editAccountView(req, res, next) {
+  // Make sure the user is logged
+  if (!res.locals.accountData)
+    res.redirect("/account/login")
+  
   const account_id = res.locals.accountData.account_id
   const itemData = await accountModel.getDetailByAccountId(account_id)
   
