@@ -231,7 +231,7 @@ Util.checkAccountType = (req, res, next) => {
 
     reviewForm += '      <label for="review_rating">Rating:</label>';
     reviewForm += '      <select id="review_rating" name="review_rating" required>';
-    reviewForm += '        <option value="" disabled selected>Seleccionar</option>';
+    reviewForm += '        <option value="" disabled selected>Select</option>';
     reviewForm += '        <option value="1">1 Star</option>';
     reviewForm += '        <option value="2">2 Stars</option>';
     reviewForm += '        <option value="3">3 Stars</option>';
