@@ -26,6 +26,43 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
+/**
+ * 
+ * Return the review for the selected vehicle
+ */
+Util.getReviews = async function (inv_id) {
+  
+    // method in your Util module to fetch reviews
+    let reviewsData = await invModel.getReviews(inv_id)
+
+    let reviewList = "<ul class='review-list'>"
+    
+    reviewsData.rows.forEach((review) => {
+        reviewList += "<li>"
+        reviewList += `<p>Rating: ${getStarRating(review.review_rating)}</p>`
+        reviewList += `<p>"${review.review_comments}"</p>`
+        reviewList += "</li>"
+    })
+
+    reviewList += "</ul>"
+    return reviewList
+}
+
+// Function to generate star icons based on the rating value
+function getStarRating(rating) {
+  const maxRating = 5;
+  let starIcons = '';
+
+  for (let i = 1; i <= maxRating; i++) {
+      if (i <= rating) {
+          starIcons += '★'; // Full star
+      } else {
+          starIcons += '☆'; // Empty star
+      }
+  }
+
+  return starIcons;
+}
 
 /* **************************************
 * Build the classification view HTML
@@ -177,6 +214,50 @@ Util.checkAccountType = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
+
+ /**
+  * 
+  *  Form to review the auto
+  */
+ Util.buildReviewForm = function(vehicle, review_comments) {
+  if (vehicle) {
+    let reviewForm = '';
+
+    reviewForm += '<div class="review-container">';
+    reviewForm += '  <div class="review-form">';
+    reviewForm += '    <form action="/inv/add/review" method="post">';
+    
+    reviewForm += '      <input type="hidden" name="inv_id" value="' + vehicle + '">';
+
+    reviewForm += '      <label for="review_rating">Rating:</label>';
+    reviewForm += '      <select id="review_rating" name="review_rating" required>';
+    reviewForm += '        <option value="" disabled selected>Seleccionar</option>';
+    reviewForm += '        <option value="1">1 Star</option>';
+    reviewForm += '        <option value="2">2 Stars</option>';
+    reviewForm += '        <option value="3">3 Stars</option>';
+    reviewForm += '        <option value="4">4 Stars</option>';
+    reviewForm += '        <option value="5">5 Stars</option>';
+    reviewForm += '      </select>';
+
+    reviewForm += '      <label for="review_comments">Comments:</label>';
+    reviewForm += '      <textarea id="review_comments" name="review_comments" placeholder="Share your experience..." required>';
+    
+    if (review_comments) {
+      reviewForm += review_comments;
+    }
+    reviewForm += '</textarea>';
+
+    reviewForm += '      <input type="submit" value="Submit Review">';
+    reviewForm += '    </form>';
+    reviewForm += '  </div>';
+    reviewForm += '</div>';
+
+    return reviewForm;
+  }
+  
+}
+
+
 
  
 

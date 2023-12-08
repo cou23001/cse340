@@ -1,7 +1,7 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
-const { invCont, registerClassification, registerVehicle } = require('../controllers/invController');
+const { invCont, registerClassification, registerVehicle, registerReview } = require('../controllers/invController');
 const utilities = require("../utilities")
 const regValidate = require('../utilities/class-validation')
 const vehicleValidate = require('../utilities/vehicle-validation')
@@ -15,6 +15,13 @@ router.get(
 router.get(
     "/detail/:carId", 
     utilities.handleErrors(invCont.buildByCarId))
+
+router.post(
+    "/add/review",
+    vehicleValidate.reviewRules(),
+    vehicleValidate.checkReviewData,
+    utilities.handleErrors(registerReview)
+)
 
 // Route to the management
 router.get(

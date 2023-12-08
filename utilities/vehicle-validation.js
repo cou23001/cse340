@@ -1,6 +1,7 @@
 const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const validate = {}
+const invModel = require("../models/inventory-model")
 
 /*  **********************************
  *  Registration Data Validation Rules
@@ -98,5 +99,51 @@ validate.checkRegData = async (req, res, next) => {
     }
     next()
   }
+
+  /*  **********************************
+ *  Review Data Validation Rules
+ * ********************************* */
+validate.reviewRules = () => {
+
+  return [
+    body("review_rating")
+    .trim()
+    .isInt()
+    .withMessage('Please select a valid rating.'),
+
+    body("review_comments")
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage("Please provide a valid comment."),
+  ]
+}
+
+validate.checkReviewData = async (req, res, next) => {
+  const { review_rating, review_comments, account_id, inv_id } = req.body
+
+  let errors = []
+  errors = validationResult(req)
+  const data = await invModel.getDetailByCarId(inv_id)
+  const detail = await utilities.buildDetailAuto(data.rows[0])
+  const year = data.rows[0].inv_year
+  const make = data.rows[0].inv_make
+  const model = data.rows[0].inv_model
+  const reviews = await utilities.getReviews(inv_id)
+  const form = await utilities.buildReviewForm(inv_id,review_comments)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("./inventory/car", {
+      errors,
+      title: year + " " + make + " " + model,
+      nav,
+      detail,
+      reviews,
+      form,
+      req
+    })
+    return
+  }
+  next()
+}
   
-  module.exports = validate
+module.exports = validate

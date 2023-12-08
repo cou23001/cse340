@@ -40,17 +40,34 @@ invCont.buildByCarId = async function (req, res, next) {
   try {
     const inv_id = req.params.carId
     const data = await invModel.getDetailByCarId(inv_id)
+    const form = await utilities.buildReviewForm(inv_id)
     const detail = await utilities.buildDetailAuto(data.rows[0])
     let nav = await utilities.getNav()
     const year = data.rows[0].inv_year
     const make = data.rows[0].inv_make
     const model = data.rows[0].inv_model
 
-    res.render("./inventory/car", {
-      title: year + " " + make + " " + model,
-      nav,
-      detail,
-    })
+    const reviews = await utilities.getReviews(inv_id)
+
+    if (res.locals.accountData == undefined) {
+      res.render("./inventory/car", {
+        title: year + " " + make + " " + model,
+        nav,
+        detail,
+        form: null,
+        reviews,
+        errors: null
+      })
+    } else {
+      res.render("./inventory/car", {
+        title: year + " " + make + " " + model,
+        nav,
+        detail,
+        form,
+        reviews,
+        errors: null
+      })
+    }
   } catch (error) {
     next({status: 404, message: 'Sorry, that vehicle is not available in our inventory.'})
   }
@@ -210,6 +227,38 @@ async function registerVehicle(req, res) {
     }
 }
 
+/* ****************************************
+*   Registration of review
+* *************************************** */
+async function registerReview(req, res) {
+  let nav = await utilities.getNav()
+  
+  account_id = res.locals.accountData.account_id
+  const { 
+    inv_id,
+    review_rating,
+    review_comments,
+  } = req.body
+
+  const regResult = await invModel.registerReview(
+    review_rating,
+    review_comments,
+    account_id,
+    inv_id,
+  )
+
+  let select = await utilities.getSelect()
+  req.flash("success");
+  
+  if (regResult && regResult.rows && regResult.rows.length > 0) {
+    req.flash("success",`Thank you for the review!`)
+    res.redirect('/inv/detail/' + inv_id)
+  } else {
+        req.flash("notice", "Sorry, the review failed.")
+        res.redirect('/inv/detail/' + inv_id)
+  }
+}
+
 /* ***************************
  *  Return Inventory by Classification As JSON
  * ************************** */
@@ -364,4 +413,4 @@ invCont.deleteInventory = async function (req, res, next) {
   }
 }
 
-module.exports = { invCont, registerClassification, registerVehicle }
+module.exports = { invCont, registerClassification, registerVehicle, registerReview }
